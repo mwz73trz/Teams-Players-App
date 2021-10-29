@@ -16,6 +16,51 @@ class HomePage extends Component {
     }
   };
 
+  addTeam = async () => {
+    let inputTitle = document.getElementById("new-team-title");
+    let inputStadium = document.getElementById("new-team-stadium");
+    let inputCity = document.getElementById("new-team-city");
+    let inputState = document.getElementById("new-team-state");
+    let inputYearEstablished = document.getElementById("new-team-date");
+
+    if (
+      inputTitle &&
+      inputStadium &&
+      inputCity &&
+      inputState &&
+      inputYearEstablished
+    ) {
+      let newTeamParams = {
+        title: inputTitle.value,
+        stadium: inputStadium.value,
+        city: inputCity.value,
+        state: inputState.value,
+        year_established: inputYearEstablished.value,
+      };
+      let data = await teamPlayerAPI.addTeam(newTeamParams);
+      if (data) {
+        let newTeams = [...this.state.teams, data];
+        this.setState({ teams: newTeams });
+      }
+    }
+  };
+
+  deleteTeam = async (teamId) => {
+    try {
+      if (teamId > 0) {
+        let result = await teamPlayerAPI.deleteTeam(teamId);
+        if (result.success) {
+          let newTeams = this.state.teams.filter((team, index) => {
+            return team.id !== teamId;
+          });
+          this.setState({ teams: newTeams });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   componentDidMount() {
     this.getTeams();
   }
@@ -24,7 +69,7 @@ class HomePage extends Component {
     let teamElements = this.state.teams.map((team, index) => {
       return (
         <li key={`team-${index}`}>
-          <Teams team={team} />
+          <Teams team={team} handleDelete={this.deleteTeam} />
         </li>
       );
     });
@@ -35,6 +80,13 @@ class HomePage extends Component {
         <ul className="simple-list" style={{ listStyle: "none" }}>
           {teamElements}
         </ul>
+        <hr />
+        <input id="new-team-title" placeholder="new team title" />
+        <input id="new-team-stadium" placeholder="new stadium" />
+        <input id="new-team-city" placeholder="new city" />
+        <input id="new-team-state" placeholder="new state" />
+        <input id="new-team-date" placeholder="new year established" />
+        <button onClick={this.addTeam}>Create New Team</button>
       </div>
     );
   }

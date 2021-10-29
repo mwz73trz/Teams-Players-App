@@ -35,9 +35,41 @@ const getTeamById = async (teamId) => {
   return await tryCatchFetch(url, getInit());
 };
 
+const addTeam = async (newTeamParams) => {
+  let url = `${BASE_URL}api/teams/`;
+  let init = getInit();
+  init["method"] = "POST";
+  init["body"] = JSON.stringify(newTeamParams);
+  return await tryCatchFetch(url, init);
+};
+
+const updateTeam = async (teamId, updatedTeamData) => {
+  let url = `${BASE_URL}api/teams/${teamId}/`;
+  let init = getInit();
+  init["method"] = "PUT";
+  init["body"] = JSON.stringify(updatedTeamData);
+  return await tryCatchFetch(url, init);
+};
+
+const deleteTeam = async (teamId) => {
+  let url = `${BASE_URL}api/teams/${teamId}/`;
+  let init = getInit();
+  init["method"] = "DELETE";
+  return await tryCatchFetch(url, init);
+};
+
+const getPlayers = async () => {
+  let url = `${BASE_URL}api/players/`;
+  return await tryCatchFetch(url, getInit());
+};
+
 const myExports = {
   getTeams,
   getTeamById,
+  addTeam,
+  updateTeam,
+  deleteTeam,
+  getPlayers,
 };
 
 export default myExports;

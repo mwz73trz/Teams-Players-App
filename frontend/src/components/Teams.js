@@ -6,6 +6,10 @@ class Teams extends Component {
     return (
       <span>
         <Link to={`/teams/${this.props.team.id}`}>{this.props.team.title}</Link>
+        {"     "}
+        <button onClick={() => this.props.handleDelete(this.props.team.id)}>
+          Delete
+        </button>
       </span>
     );
   }
