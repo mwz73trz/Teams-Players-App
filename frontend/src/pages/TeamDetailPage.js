@@ -130,6 +130,9 @@ class TeamDetailPage extends Component {
     return (
       <div>
         <TeamDetail team={this.state.team} />
+        <Link to={`/teams/${this.state.team.id}/players`}>
+          Favorite Players on this Team
+        </Link>
       </div>
     );
   }
@@ -145,10 +148,6 @@ class TeamDetailPage extends Component {
         >
           Update
         </button>
-        <br />
-        <Link to={`/teams/${this.state.team.id}/players`}>
-          Favorite Players on this Team
-        </Link>
       </div>
     );
   }

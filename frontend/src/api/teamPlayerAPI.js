@@ -58,9 +58,24 @@ const deleteTeam = async (teamId) => {
   return await tryCatchFetch(url, init);
 };
 
-const getPlayers = async () => {
-  let url = `${BASE_URL}api/players/`;
+const getPlayerById = async (playerId) => {
+  let url = `${BASE_URL}api/players/${playerId}/`;
   return await tryCatchFetch(url, getInit());
+};
+
+const addPlayer = async (newPlayerParams) => {
+  let url = `${BASE_URL}api/players/`;
+  let init = getInit();
+  init["method"] = "POST";
+  init["body"] = JSON.stringify(newPlayerParams);
+  return await tryCatchFetch(url, init);
+};
+
+const deletePlayer = async (playerId) => {
+  let url = `${BASE_URL}api/players/${playerId}/`;
+  let init = getInit();
+  init["method"] = "DELETE";
+  return await tryCatchFetch(url, init);
 };
 
 const myExports = {
@@ -69,7 +84,9 @@ const myExports = {
   addTeam,
   updateTeam,
   deleteTeam,
-  getPlayers,
+  getPlayerById,
+  addPlayer,
+  deletePlayer,
 };
 
 export default myExports;
